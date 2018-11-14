@@ -1,0 +1,39 @@
+<section id="custom-repository">
+
+    <section>
+        <h2>Custom Repository</h2>
+    </section>
+
+    <section>
+        <h3>Custom Repository</h3>
+        <p>Il est possible d'ajouter des méthodes à un Repository en créant une classe qui hérite de la classe <code class="language-php">EntityRepository</code>.</p>
+        <p>Pour cela il faut commencer par créer la classe :</p>
+        <pre><code class="language-php">// Entity/Repository/MyEntityRepository.php
+namespace Entity\Repository;
+
+use Doctrine\ORM\EntityRepository;
+
+class MyEntityRepository extends EntityRepository
+{
+    public function getCustomResults()
+    {
+        return $this->_em->createQuery("SELECT me FROM Entity\MyEntity me")->getResult();
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h3>Custom Repository</h3>
+        <p>Puis ensuite il faut lier cette classe à son entité :</p>
+        <pre><code class="language-php">/**
+ * Utilisateur
+ *
+ * @ORM\Table(name="utilisateur", indexes={@ORM\Index(name="fk_utilisateur_ville1_idx", columns={"ville_id"}), @ORM\Index(name="fk_utilisateur_civilite1_idx", columns={"civilite_id"})})
+ * @ORM\Entity(repositoryClass="Entity\Repository\UtilisateurRepository")
+ */
+class Utilisateur
+{
+}</code></pre>
+    </section>
+
+</section>

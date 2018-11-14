@@ -1,0 +1,84 @@
+<section id="installation">
+
+    <section>
+        <h2>Installation</h2>
+    </section>
+
+    <section>
+        <h3>Composer</h3>
+        <p>Pour installer l'ORM Doctrine, commencez par télécharger les fichiers sources en utilisant la commande suivante :</p>
+        <pre><code class="language-bash">composer require doctrine/orm</code></pre>
+        <p>Ajoutez ensuite la configuration de l'autoloader pour les classes de nos entités dans le fichier package.json :</p>
+        <pre><code class="language-json">{
+    "require": {
+        "doctrine/orm": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Entity\\": "Entity/"
+        }
+    }
+}
+</code></pre>
+    </section>
+
+    <section>
+        <h3>Configuration</h3>
+        <p>Créez ensuite un fichier bootstrap.php et recopiez le code ci-dessous en modifiant les paramètres de connexion à la base de données :</p>
+        <pre><code class="language-php">// bootstrap.php
+require_once "vendor/autoload.php";
+
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\EntityManager;
+
+$paths = array("/Entity");
+$isDevMode = false;
+
+// the connection configuration
+$dbParams = array(
+    'driver'   => 'pdo_mysql',
+    'user'     => 'root',
+    'password' => '',
+    'dbname'   => 'foo',
+);
+
+$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, null, null, false);
+$entityManager = EntityManager::create($dbParams, $config);</code></pre>
+    </section>
+
+    <section>
+        <h3>Configuration</h3>
+        <p>Nous allons maintent configurer l'interface en ligne de commande (CLI) pour lui indiquer la configuration à utiliser :</p>
+        <pre><code class="language-php">// cli-config.php
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+
+require_once 'bootstrap.php';
+
+return ConsoleRunner::createHelperSet($entityManager);</code></pre>
+    </section>
+
+    <section>
+        <h3>Ecriture des entités</h3>
+        <p>Vous pouvez ensuite choisir l'une des approches suivantes pour créer vos entités :</p>
+        <ul>
+            <li>Database First : BDD → Model → Entités</li>
+            <li>Model First : Model → Code → BDD</li>
+            <li>Code First : Code → Model → BDD</li>
+        </ul>
+        <p>Nous allons dans cette exemple utiliser la méthode <strong>Database First</strong>.</p>
+        <p>Pour générer automatiquement les entités PHP, utilisez la commande ci-dessous :</p>
+        <pre><code class="language-bash">php vendor/bin/doctrine orm:convert-mapping --from-database annotation Entity</code></pre>
+    </section>
+
+    <section>
+        <h3>Classes Proxy</h3>
+        <p>Les classes proxy sont utilisées lorsqu'il n'y a pas assez de données retournées par une requête pour pouvoir créer une entité.</p>
+        <p>Il faut dans un premier temps définir dans le fichier bootstrap.php l'emplacement des classes Proxy :</p>
+        <pre><code class="language-php">$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, null, null, false);
+$config->setProxyDir(__DIR__ . "/Entity/Proxy"); // Définir l'emplacement des classes Proxy
+$entityManager = EntityManager::create($dbParams, $config);</code></pre>
+        <p>Puis ensuite les générer en utilisant la commande suivante :</p>
+        <pre><code class="language-bash">php vendor/bin/doctrine orm:generate-proxies</code></pre>
+    </section>
+
+</section>

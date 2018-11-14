@@ -1,0 +1,81 @@
+<section id="manipulate-data">
+
+    <section>
+        <h2>Manipuler des données</h2>
+    </section>
+
+    <section>
+        <h3>Repository</h3>
+        <p>Un repository (dépôt) permet de faire l'intermédiaire entre l'application et la base de données.</p>
+        <p>Il est possible de récupérer le Repository d'une Entité de la manière suivante :</p>
+        <pre><code class="language-php">$entityManager->getRepository(MyEntity::class)</code></pre>
+    </section>
+
+    <section>
+        <h3>Repository Methods</h3>
+        <p>Chaque Repository dispose de plusieurs méthodes communes permettant de récupérer des données :</p>
+        <table>
+            <thead>
+            <tr>
+                <th>Methode</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><code class="language-php">findAll()</code></td>
+                <td>Permet de récupérer l'ensemble des données d'une entité</td>
+            </tr>
+            <tr>
+                <td><code class="language-php">find()</code></td>
+                <td>Permet de récupérer une entité par son id</td>
+            </tr>
+            <tr>
+                <td><code class="language-php">findBy()</code><br><code class="language-php">findByField()</code></td>
+                <td>Permet de récupérer plusieurs entités respectant les critères définis en paramètre</td>
+            </tr>
+            <tr>
+                <td><code class="language-php">findOneBy()</code><br><code class="language-php">findOneByField()</code></td>
+                <td>Permet de récupérer une entité respectant les critères définis en paramètre</td>
+            </tr>
+            <tr>
+                <td><code class="language-php">count()</code></td>
+                <td>Permet de compter le nombre d'entités présentent en base de données</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h3>Insert</h3>
+        <p>Pour insérer des données en base de données, il faut créer une nouvelle instance d'un objet entité puis le persister :</p>
+        <pre><code class="language-php">$user = new User;
+$user->setName('Mr.Right');
+$em->persist($user);
+$em->flush();</code></pre>
+        <footer>
+            <a href="https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/working-with-objects.html#persisting-entities" class="info">Documentation officielle</a>
+        </footer>
+    </section>
+
+    <section>
+        <h3>Update</h3>
+        <p>Pour mettre à jour une entité, il faut dans un premier temps récupérer l'entité en base de données puis ensuite la persister :</p>
+        <pre><code class="language-php">$user = $entityManager->getRepository(User::class)->find(1);
+$user->setName('Mr.Wrong');
+$em->persist($user);
+$em->flush();</code></pre>
+    </section>
+
+    <section>
+        <h3>Delete</h3>
+        <p>Pour supprimer des données en base de données, il faut dans un premier temps récupérer l'entité à supprimer puis ensuite appeler la méthode <code class="language-php">remove()</code> de l'EntityManager :</p>
+        <pre><code class="language-php">$user = $entityManager->getRepository(User::class)->find(1);
+$em->remove($user);
+$em->flush();</code></pre>
+        <footer>
+            <a href="https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/working-with-objects.html#removing-entities" class="info">Documentation officielle</a>
+        </footer>
+    </section>
+
+</section>

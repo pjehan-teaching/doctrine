@@ -8,7 +8,7 @@
         <h3>Composer</h3>
         <p>Pour installer l'ORM Doctrine, commencez par télécharger les fichiers sources en utilisant la commande suivante :</p>
         <pre><code class="language-bash">composer require doctrine/orm</code></pre>
-        <p>Ajoutez ensuite la configuration de l'autoloader pour les classes de nos entités dans le fichier package.json :</p>
+        <p>Ajoutez ensuite la configuration de l'autoloader pour les classes de nos entités dans le fichier composer.json :</p>
         <pre><code class="language-json">{
     "require": {
         "doctrine/orm": "^2.6"
@@ -31,7 +31,7 @@ require_once "vendor/autoload.php";
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
-$paths = array("/Entity");
+$paths = array(__DIR__ . "/Entity");
 $isDevMode = false;
 
 // the connection configuration
@@ -67,7 +67,7 @@ return ConsoleRunner::createHelperSet($entityManager);</code></pre>
         </ul>
         <p>Nous allons dans cette exemple utiliser la méthode <strong>Database First</strong>.</p>
         <p>Pour générer automatiquement les entités PHP, utilisez la commande ci-dessous :</p>
-        <pre><code class="language-bash">php vendor/bin/doctrine orm:convert-mapping --from-database annotation Entity</code></pre>
+        <pre><code class="language-bash">php vendor/bin/doctrine orm:convert-mapping --from-database --namespace="Entity\\" annotation .</code></pre>
     </section>
 
     <section>

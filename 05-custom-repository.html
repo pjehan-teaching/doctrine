@@ -26,12 +26,12 @@ class MyEntityRepository extends EntityRepository
         <h3>Custom Repository</h3>
         <p>Puis ensuite il faut lier cette classe à son entité :</p>
         <pre><code class="language-php">/**
- * Utilisateur
+ * MyEntity
  *
- * @ORM\Table(name="utilisateur", indexes={@ORM\Index(name="fk_utilisateur_ville1_idx", columns={"ville_id"}), @ORM\Index(name="fk_utilisateur_civilite1_idx", columns={"civilite_id"})})
- * @ORM\Entity(repositoryClass="Entity\Repository\UtilisateurRepository")
+ * @ORM\Table(name="my_entity")
+ * @ORM\Entity(repositoryClass="Entity\Repository\MyEntityRepository")
  */
-class Utilisateur
+class MyEntity
 {
 }</code></pre>
     </section>

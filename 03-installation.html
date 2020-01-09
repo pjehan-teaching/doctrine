@@ -37,6 +37,11 @@ $isDevMode = false;
 // the connection configuration
 $dbParams = array(
     'driver'   => 'pdo_mysql',
+    /*
+     * MAMP users
+     * 'host'     => '127.0.0.1',
+     * 'port'     => 8889,
+     */
     'user'     => 'root',
     'password' => '',
     'dbname'   => 'foo',
@@ -67,7 +72,7 @@ return ConsoleRunner::createHelperSet($entityManager);</code></pre>
         </ul>
         <p>Nous allons dans cette exemple utiliser la méthode <strong>Database First</strong>.</p>
         <p>Pour générer automatiquement les entités PHP, utilisez la commande ci-dessous :</p>
-        <pre><code class="language-bash">php vendor/bin/doctrine orm:convert-mapping --from-database --namespace="Entity\\" annotation .</code></pre>
+        <pre><code class="language-bash">vendor/bin/doctrine orm:convert-mapping --from-database --namespace="Entity\\" annotation .</code></pre>
     </section>
 
     <section>

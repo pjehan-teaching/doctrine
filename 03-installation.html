@@ -20,6 +20,8 @@
     }
 }
 </code></pre>
+        <p>Puis mettre à jour l'autoload de composer :</p>
+        <pre><code class="language-bash">composer dump-autoload</code></pre>
     </section>
 
     <section>
@@ -83,7 +85,7 @@ return ConsoleRunner::createHelperSet($entityManager);</code></pre>
 $config->setProxyDir(__DIR__ . "/Entity/Proxy"); // Définir l'emplacement des classes Proxy
 $entityManager = EntityManager::create($dbParams, $config);</code></pre>
         <p>Puis ensuite les générer en utilisant la commande suivante :</p>
-        <pre><code class="language-bash">php vendor/bin/doctrine orm:generate-proxies</code></pre>
+        <pre><code class="language-bash">vendor/bin/doctrine orm:generate-proxies</code></pre>
     </section>
 
 </section>

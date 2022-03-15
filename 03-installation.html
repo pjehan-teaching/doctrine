@@ -27,7 +27,7 @@
     <section>
         <h3>Configuration</h3>
         <p>Créez ensuite un fichier bootstrap.php et recopiez le code ci-dessous en modifiant les paramètres de connexion à la base de données :</p>
-        <pre><code class="language-php">// bootstrap.php
+        <pre style="font-size: 0.5em;"><code class="language-php">&lt;?php // bootstrap.php
 require_once "vendor/autoload.php";
 
 use Doctrine\ORM\Tools\Setup;
@@ -49,14 +49,14 @@ $dbParams = array(
     'dbname'   => 'foo',
 );
 
-$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, null, null, false);
+$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, null, null, false); // Replace with createAttributeMetadataConfiguration to use PHP8 attributes
 $entityManager = EntityManager::create($dbParams, $config);</code></pre>
     </section>
 
     <section>
         <h3>Configuration</h3>
         <p>Nous allons maintent configurer l'interface en ligne de commande (CLI) pour lui indiquer la configuration à utiliser :</p>
-        <pre><code class="language-php">// cli-config.php
+        <pre><code class="language-php">&lt;?php // cli-config.php
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 
 require_once 'bootstrap.php';
@@ -74,7 +74,30 @@ return ConsoleRunner::createHelperSet($entityManager);</code></pre>
         </ul>
         <p>Nous allons dans cette exemple utiliser la méthode <strong>Database First</strong>.</p>
         <p>Pour générer automatiquement les entités PHP, utilisez la commande ci-dessous :</p>
+        <pre><code class="language-bash">composer require doctrine/annotations symfony/cache</code></pre>
         <pre><code class="language-bash">vendor/bin/doctrine orm:convert-mapping --from-database --namespace="Entity\\" annotation .</code></pre>
+    </section>
+
+    <section>
+        <h3>Utiliser les attributs PHP8</h3>
+        <p>Pour remplacer les annotations par des attributs, nous pouvons utiliser la librairie <a href="https://getrector.org/" target="_blank">Rector</a> :</p>
+        <pre><code class="language-bash">composer require --save-dev rector</code></pre>
+        <pre><code class="language-php">&lt;?php // rector.php
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Doctrine\Set\DoctrineSetList;
+use Rector\Php74\Rector\Property\TypedPropertyRector;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $containerConfigurator->import(DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES);
+    $services->set(TypedPropertyRector::class);
+};</code></pre>
+        <pre><code class="language-bash">vendor/bin/rector process Entity</code></pre>
+        <footer>
+            <a href="#" class="warning" style="font-size: 0.6em;">Utiliser la méthode <code class="language-php">createAttributeMetadataConfiguration()</code> dans le fichier bootstrap.php</a>
+        </footer>
     </section>
 
     <section>
@@ -86,6 +109,7 @@ $config->setProxyDir(__DIR__ . "/Entity/Proxy"); // Définir l'emplacement des c
 $entityManager = EntityManager::create($dbParams, $config);</code></pre>
         <p>Puis ensuite les générer en utilisant la commande suivante :</p>
         <pre><code class="language-bash">vendor/bin/doctrine orm:generate-proxies</code></pre>
+        <p>Nous pouvons également modifier la variable <code class="language-php">$isDevMode = true;</code> pour que les fichiers de proxy soient automatiquement regénérés à chaque requête.</p>
     </section>
 
 </section>

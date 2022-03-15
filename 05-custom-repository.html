@@ -25,15 +25,29 @@ class MyEntityRepository extends EntityRepository
     <section>
         <h3>Custom Repository</h3>
         <p>Puis ensuite il faut lier cette classe à son entité :</p>
-        <pre><code class="language-php">/**
- * MyEntity
- *
- * @ORM\Table(name="my_entity")
- * @ORM\Entity(repositoryClass="Entity\Repository\MyEntityRepository")
- */
+        <div class="tabs-container">
+            <ul class="tabs-buttons">
+                <li data-tab="php-annotations">Annotations</li>
+                <li data-tab="php-attributes">Attributs</li>
+            </ul>
+            <pre class="tabs-tab" data-tab="php-annotations"><code class="language-php">/**
+* MyEntity
+*
+* @ORM\Table(name="my_entity")
+* @ORM\Entity(repositoryClass="Entity\Repository\MyEntityRepository")
+*/
 class MyEntity
 {
 }</code></pre>
+            <pre class="tabs-tab" data-tab="php-attributes"><code class="language-php">/**
+* MyEntity
+*/
+#[ORM\Table(name: 'my_entity')]
+#[ORM\Entity(repositoryClass: 'Entity\Repository\MyEntityRepository')]
+class MyEntity
+{
+}</code></pre>
+        </div>
     </section>
 
 </section>

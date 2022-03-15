@@ -1,0 +1,33 @@
+.tabs-container {
+    margin-top: 0.5em;
+
+    ul.tabs-buttons {
+        display: flex;
+        margin: 0;
+        padding: 5px;
+        list-style-type: none;
+        background-color: white;
+        border-radius: 2px 2px 0 0;
+
+        > li {
+            padding: 5px;
+            background-color: lightgray;
+            border-radius: 2px;
+            font-size: 0.6em;
+            line-height: 1em;
+            cursor: pointer;
+
+            &:not(:last-child) {
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .tabs-tab {
+        margin: 0;
+
+        &:not(:first-of-type) {
+            display: none;
+        }
+    }
+}
